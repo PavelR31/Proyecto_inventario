@@ -1,23 +1,44 @@
-﻿@model Proyecto_inventario.Models.Usuario
+﻿@{
+    ViewData["Title"] = "Registro";
+    Layout = null; // Evita que se aplique el layout
+}
+@model Proyecto_inventario.Models.Usuario
 
-<form asp-controller="Registro"  asp-action="Index" method="post">
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <label asp-for="Nombre" class="control-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>@ViewData["Title"]</h1>
+        <form asp-controller="Registro" asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" class="form-control" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Clave" class="form-label"></label>
+                <input asp-for="Clave" class="form-control" type="password" />
+                <span asp-validation-for="Clave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Registrar" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Correo" class="control-label"></label>
-        <input asp-for="Correo" class="form-control" />
-        <span asp-validation-for="Correo" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Clave" class="control-label"></label>
-        <input asp-for="Clave" class="form-control" type="password" />
-        <span asp-validation-for="Clave" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Registrar" class="btn btn-primary" />
-    </div>
-</form>
+
+    <!-- Optionally include Bootstrap's JavaScript and dependencies if needed -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

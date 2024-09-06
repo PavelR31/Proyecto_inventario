@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Proyecto_inventario.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization; // Para la autorización de roles
+using System.Security.Claims;
 
 namespace Proyecto_inventario.Controllers
 {
@@ -87,5 +88,102 @@ namespace Proyecto_inventario.Controllers
             // Si llegamos aquí, algo falló, volvemos a mostrar el formulario
             return View(usuario);
         }
+
+        // GET: Solicitar ser propietario
+        [Authorize(Roles = "UsuarN")] // Solo "UsuarioN" puede acceder
+        public IActionResult SolicitarPropietario()
+        {
+            return View();
+        }
+
+        // POST: Solicitar ser propietario
+        
+        // POST: Solicitar ser propietario
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "UsuarN")] // Solo "UsuarN" puede acceder
+        
+        public async Task<IActionResult> SolicitarPropietario(string confirmacion)
+        {
+            if (confirmacion == "true")
+            {
+                // Obtener el ID del usuario actual
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Verificar si userId se puede convertir a un entero
+                if (int.TryParse(userId, out int usuarioId))
+                {
+                    // Obtener el usuario desde la base de datos
+                    var usuario = await _context.Usuarios.FindAsync(usuarioId);
+
+                    if (usuario == null)
+                    {
+                        return NotFound("Usuario no encontrado.");
+                    }
+
+                    // IDs de los roles
+                    int rolPropietarioId = 5; // ID del rol "Propietario"
+                    int usuarioNrolId = 4; // ID del rol "UsuarN"
+
+                    // Eliminar el rol "UsuarN" del usuario si existe
+                    var usuarioNrol = await _context.UsuarioRoles
+                        .FirstOrDefaultAsync(ur => ur.UsuarioId == usuarioId && ur.RolId == usuarioNrolId);
+
+                    if (usuarioNrol != null)
+                    {
+                        _context.UsuarioRoles.Remove(usuarioNrol);
+                    }
+
+                    // Verificar si el rol "Propietario" ya está asignado
+                    var propietarioRol = await _context.UsuarioRoles
+                        .FirstOrDefaultAsync(ur => ur.UsuarioId == usuarioId && ur.RolId == rolPropietarioId);
+
+                    if (propietarioRol == null)
+                    {
+                        // Agregar el nuevo rol "Propietario" al usuario
+                        var nuevoUsuarioRol = new UsuarioRol
+                        {
+                            UsuarioId = usuarioId,
+                            RolId = rolPropietarioId
+                        };
+
+                        _context.UsuarioRoles.Add(nuevoUsuarioRol);
+                    }
+
+                    // Asegúrate de guardar los cambios en la base de datos
+                    await _context.SaveChangesAsync();
+
+                    // Insertar el usuario en la tabla Propietarios solo si no existe ya
+                    var propietarioExistente = await _context.Propietarios
+                        .FirstOrDefaultAsync(p => p.UsuarioId == usuarioId);
+
+                    if (propietarioExistente == null)
+                    {
+                        var nuevoPropietario = new Propietario
+                        {
+                            UsuarioId = usuarioId
+                        };
+
+                        _context.Propietarios.Add(nuevoPropietario);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Guardar en TempData que el usuario se convirtió en propietario
+                    TempData["PropietarioMessage"] = "¡Felicitaciones! Ahora eres Propietario.";
+
+                    // Redirigir de nuevo a la vista de solicitud
+                    return RedirectToAction("SolicitarPropietario");
+                }
+                else
+                {
+                    return NotFound("ID de usuario inválido.");
+                }
+            }
+
+            return View();
+        }
+
+
+
     }
 }

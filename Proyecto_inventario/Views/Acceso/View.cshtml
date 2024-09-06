@@ -1,9 +1,83 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Mvc.Razor
+@{
+    ViewData["Title"] = "Bienvenido al Sistema de Alquiler";
+    Layout = null; // Evita que se aplique el layout
 }
 
-<div class="text-center mt-5">
-    <h2>Bienvenido!</h2>
-    <a href="/Acceso/Index" class="btn btn-primary btn-lg">Inicia</a>
-    <a href="/Acceso/Registro" class="btn btn-secondary btn-lg">Registrate</a>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Vendor CSS Files -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="~/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Main CSS File -->
+    <link href="~/css/main.css" rel="stylesheet" />
+</head>
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="~/index.html" class="logo d-flex align-items-center me-auto">
+                <img src="~/img/LOGOCASA.png" alt="" />
+                <h1 class="sitename">Alquileres S.A</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href=@Url.Action("Registro", "Acceso") class="active">Registrate</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn-getstarted" href=@Url.Action("Index", "Acceso")>Inicia sesion</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section">
+            <div class="hero-bg">
+                <img src="~/img/hero-bg-light.webp" alt="" />
+            </div>
+            <div class="container text-center">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h1 data-aos="fade-up">Bienvenido a <span>Alquileres S.A</span></h1>
+                    <p data-aos="fade-up" data-aos-delay="100">
+                       Registrate para poder conocer nuestra variedad de propiedades y terrrenos<br />
+                    </p>
+                    <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <a href="#about" class="btn-get-started"> Registrate </a>
+                        <a href= href=@Url.Action("Index", "Acceso")class=" d-flex align-items-center">
+                            <i class="bi bi-play-circle" ></i><span> Inicia sesion </span>
+                        </a>
+                    </div>
+                    <img src="~/img/IMG.png" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Scroll Top -->
+        <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
+
+        <!-- Preloader -->
+        <div id="preloader"></div>
+
+        <!-- Scripts -->
+        <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="~/vendor/aos/aos.js"></script>
+        <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/main.js"></script>
+    </main>
+</body>
+</html>

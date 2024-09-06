@@ -5,75 +5,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Proyecto_inventario</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Proyecto_inventario.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sb-admin-2.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Proyecto_inventario.styles.css" asp-append-version="true" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Proyecto_inventario</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.IsInRole("UsuarN"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Productos">Productos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Acceso" asp-action="Salir">Salir</a>
-                            </li>
-                        }
-                        else if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Ventas">Ventas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Compras">Compras</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Clientes">Clientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Acceso" asp-action="Salir">Salir</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Acceso" asp-action="Salir">Salir</a>
-                            </li>
-                        }
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Alquileres<sup> S.A </sup></div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            @if (User.IsInRole("Administrador") || User.IsInRole("Propietario"))
+            {
+                <li class="nav-item active">
+                    @if (User.IsInRole("Administrador")){
+                        <a class="nav-link" href="@Url.Action("Admin", "Home")">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link" href="@Url.Action("Propetario", "Home")">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    }
+
+                </li>
+            }
+
+            
+            
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Admin Section -->
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="sidebar-heading">
+                    Administración
+                </div>
+                <!-- Nav Item - User CRUD -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "Usuarios")" data-toggle="collapse" data-target="#collapseUserCRUD"
+                       aria-expanded="true" aria-controls="collapseUserCRUD">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Usuarios</span>
+                    </a>
+                    <div id="collapseUserCRUD" class="collapse" aria-labelledby="headingUserCRUD" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Gestión de Usuarios:</h6>
+                            <a class="collapse-item" href="#">Crear Usuario</a>
+                            <a class="collapse-item" href="#">Listar Usuarios</a>
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @if (User.IsInRole("UsuarN"))
+            {
+                <div class="sidebar-heading">
+                    Solicitar
+                </div>
+                <!-- Nav Item - User CRUD -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("SolicitarPropietario", "Registro")" data-toggle="collapse" data-target="#collapseUserCRUD"
+                       aria-expanded="true" aria-controls="collapseUserCRUD">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Ser propietario</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Propietario Section -->
+            @if (User.IsInRole("Propietario"))
+            {
+                <div class="sidebar-heading">
+                    Gestión de Propiedades
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "Propiedads")" data-toggle="collapse" data-target="#collapsePropertyCRUD"
+                       aria-expanded="true" aria-controls="collapsePropertyCRUD">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span>Propiedades</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "FincaTerrenoes")" data-toggle="collapse" data-target="#collapseLandCRUD"
+                       aria-expanded="true" aria-controls="collapseLandCRUD">
+                        <i class="fas fa-fw fa-tree"></i>
+                        <span>Terrenos</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Exit -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="btn btn-primary" href="@Url.Action("Salir", "Acceso")">Logout</a>
+                        </li>
                     </ul>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>© 2024 Proyecto_inventario. Todos los derechos reservados. Alquileres S.A</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/Identity/Account/Logout">Logout</a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Proyecto_inventario - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.js"></script>
+    <!-- Charts -->
+    <script src="~/js/demo/chart-area-demo.js"></script>
+    <script src="~/js/demo/chart-pie-demo.js"></script>
+    <script src="~/js/demo/char-bar.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts" ></script>
+    <script>
+            // Configuración del gráfico de pastel
+            var pieOptions = {
+            series: [44, 55, 41],
+            chart: {
+                type: 'pie'
+            },
+            labels: ['Direct', 'Social', 'Referral'],
+            colors: ['#4e73df', '#1cc88a', '#36b9cc']
+        };
+        var pieChart = new ApexCharts(document.querySelector("#pieChart"), pieOptions);
+        pieChart.render();
+
+        // Configuración del gráfico lineal
+        var lineOptions = {
+            series: [{
+                name: "Sales",
+                data: [30, 40, 35, 50, 49, 60, 70]
+            }],
+            chart: {
+                type: 'line',
+                height: 350
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            title: {
+                text: 'Sales Trends',
+                align: 'left'
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+            },
+            colors: ['#4e73df']
+        };
+        var lineChart = new ApexCharts(document.querySelector("#lineChart"), lineOptions);
+        lineChart.render();
+    </script>
+
+
+    </script>
+    
+    <!-- Additional Scripts -->
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

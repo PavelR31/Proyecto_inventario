@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-
 using Proyecto_inventario.Models;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
@@ -21,17 +20,18 @@ namespace Proyecto_inventario.Controllers
         {
             return View();
         }
+
         public IActionResult view()
         {
             return View();
         }
-       
+
         public IActionResult registro()
         {
             return View();
         }
 
-
+        [HttpPost]
         [HttpPost]
         public async Task<IActionResult> Index(Usuario _usuario)
         {
@@ -48,11 +48,11 @@ namespace Proyecto_inventario.Controllers
 
                 // Crear reclamaciones
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, usuario.Nombre),
-                    new Claim(ClaimTypes.Email, usuario.Correo),
-                    new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString())
-                };
+        {
+            new Claim(ClaimTypes.Name, usuario.Nombre),
+            new Claim(ClaimTypes.Email, usuario.Correo),
+            new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString())
+        };
 
                 // Añadir roles como reclamaciones
                 claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -63,7 +63,18 @@ namespace Proyecto_inventario.Controllers
                 // Iniciar sesión
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                return RedirectToAction("Index", "Home");
+                // Redirigir basado en el rol
+                if (roles.Contains("Propietario"))
+                {
+                    return RedirectToAction("Propetario", "Home");
+                }else if (roles.Contains("Administrador"))
+                {
+                    return RedirectToAction("Index", "Usuarios");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
@@ -72,6 +83,7 @@ namespace Proyecto_inventario.Controllers
                 return View();
             }
         }
+
 
         public async Task<IActionResult> Salir()
         {

@@ -18,5 +18,6 @@ namespace Proyecto_inventario.Models
         public string Clave { get; set; }
 
         public List<UsuarioRol> UsuarioRoles { get; set; }
+        public Propietario Propietario { get; set; } // Propiedad de navegación
     }
 }

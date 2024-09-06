@@ -1,0 +1,153 @@
+﻿@{
+    ViewData["Title"] = "Vista Propetario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!-- Tarjeta de Ingresos Mensuales -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Ingresos (Mensuales)
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta de Usuarios Compradores -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Ganancia total
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">215,000</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta de Tareas Completadas -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Casas alquiladas 
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                            </div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar"
+                                         style="width: 10%" aria-valuenow="50" aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta de Solicitudes Pendientes -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Solicitudes Pendientes
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Tarjeta del gráfico de pastel -->
+    <div class="col-xl-6 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Header de la Tarjeta -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Fuentes de Ingreso</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                         aria-labelledby="dropdownMenuLink1">
+                        <div class="dropdown-header">Encabezado del Menú:</div>
+                        <a class="dropdown-item" href="#">Acción</a>
+                        <a class="dropdown-item" href="#">Otra acción</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Algo más aquí</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Cuerpo de la Tarjeta -->
+            <div class="card-body">
+                <!-- Contenedor para el gráfico de pastel -->
+                <div id="pieChart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta del gráfico lineal -->
+    <div class="col-xl-6 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Header de la Tarjeta -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Tendencias de Ventas</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                         aria-labelledby="dropdownMenuLink2">
+                        <div class="dropdown-header">Encabezado del Menú:</div>
+                        <a class="dropdown-item" href="#">Acción</a>
+                        <a class="dropdown-item" href="#">Otra acción</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Algo más aquí</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Cuerpo de la Tarjeta -->
+            <div class="card-body">
+                <!-- Contenedor para el gráfico lineal -->
+                <div id="lineChart"></div>
+            </div>
+        </div>
+    </div>
+</div>

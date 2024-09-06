@@ -1,9 +1,56 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Proyecto_inventario.Models.PaginatedList<Proyecto_inventario.Models.Propiedad>
+
+@{
+    ViewData["Title"] = "Propiedades Disponibles";
 }
 
-<div class="text-center">
-    <div class="alert alertalert-success">
-        <h2 class="display-4"> Soy la página index</h2>
+<h1 class="my-4">@ViewData["Title"]</h1>
+
+<div class="container">
+    <div class="row">
+        @foreach (var propiedad in Model)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card h-100">
+
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSe9opGTGIEp15Owe_EWqAXy_Sn3wh2gpGNw&s" class="card-img-top" alt="Imagen de propiedad">
+
+                    <div class="card-body">
+                        <h5 class="card-title">@propiedad.Nombre</h5>
+                        <p class="card-text">@propiedad.Direccion</p>
+
+                        @if (propiedad.Propietario != null)
+                        {
+                            @if (propiedad.Propietario.Usuario != null)
+                            {
+                                <p class="card-text">Propietario: @propiedad.Propietario.Usuario.Nombre</p>
+                            }
+                            else
+                            {
+                                <p class="card-text">Propietario: Información de usuario no disponible</p>
+                            }
+                        }
+                        else
+                        {
+                            <p class="card-text">Propietario: Información de propietario no disponible</p>
+                        }
+
+                        <!-- Puedes agregar un botón o enlace aquí si es necesario -->
+                        <!-- <a href="#" class="btn btn-primary">Más detalles</a> -->
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        @if (Model.HasPreviousPage)
+        {
+            <a href="@Url.Action("Index", new { page = Model.PageIndex - 1 })" class="btn btn-link">Página anterior</a>
+        }
+        if (Model.HasNextPage)
+        {
+        <a href="@Url.Action("Index", new { page = Model.PageIndex + 1 })" class="btn btn-link">Página siguiente</a>
+        }
     </div>
 </div>

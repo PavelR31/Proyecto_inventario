@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Solictar ser propetario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Solicitar ser Propietario</h2>
+
+@if (TempData["PropietarioMessage"] != null)
+{
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+        Swal.fire({
+            title: '¡Éxito!',
+            text: '@TempData["PropietarioMessage"]',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false, // Desactiva el clic fuera del alert
+            allowEscapeKey: false,    // Desactiva el escape con el teclado
+        })
+    </script>
+}
+else
+{
+        <form asp-action="SolicitarPropietario" method="post">
+            <div class="form-group">
+                <label for="confirmacion">¿Desea solicitar convertirse en Propietario?</label>
+                <input type="hidden" name="confirmacion" value="true" />
+            </div>
+            <button type="submit" class="btn btn-primary">Solicitar</button>
+        </form>
+}
